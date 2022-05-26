@@ -20,10 +20,11 @@ namespace WeatherGetApp
         private string _wind;
         private string _humidity;
         private string _pressure;
+        private string _dateTimeInfo;
 
         private WeatherGet _weatherGet;
         private WeatherInfo? _weatherInfo;
-
+        private Task _dateTimeUpdate;
         private BitmapImage _weatherIcon;
 
         public string City
@@ -131,6 +132,18 @@ namespace WeatherGetApp
                 {
                     _weatherIcon = value;
                     NotifyPropertyChanged(nameof(WeatherIcon));
+                }
+            }
+        }
+        public string DateTimeInfo
+        {
+            get => _dateTimeInfo;
+            set
+            {
+                if (_dateTimeInfo != value)
+                {
+                    _dateTimeInfo = value;
+                    NotifyPropertyChanged(nameof(DateTimeInfo));
                 }
             }
         }
@@ -289,10 +302,12 @@ namespace WeatherGetApp
             TimeDelay = 50;
 
             ReadConfig();
+            UpdateDateTime();
 #if !DEBUG
             GetWeather();
             UpdateWeatherInfo();
 #endif
+
             if (IsDynamic)
                 DynamicBackground();
 
@@ -323,6 +338,7 @@ namespace WeatherGetApp
                     case "Облачно с прояснениями":
                         WeatherIcon = new BitmapImage(new Uri("/Resources/CloudStatus2.png", UriKind.Relative));
                         break;
+                    case "Дождь":
                     case "Небольшой дождь":
                         WeatherIcon = new BitmapImage(new Uri("/Resources/RainStatus.png", UriKind.Relative));
                         break;
@@ -453,6 +469,19 @@ namespace WeatherGetApp
                 }
             });
             _task.Start();
+        }
+        private void UpdateDateTime()
+        {
+            _dateTimeUpdate = new Task( async () => 
+            {
+                while (true)
+                {
+                    DateTimeInfo = DateTime.Now.ToString("dddd dd-MM-yyyy HH:mm").ToUpper();
+                    await Task.Delay(10000);
+                }
+                
+            });
+            _dateTimeUpdate.Start();
         }
     }
 }
