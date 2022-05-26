@@ -292,6 +292,7 @@ namespace WeatherGetApp
         public MainViewModel()
         {
             _weatherGet = new WeatherGet();
+            City = "Поиск";
             Top = 50;
             Left = 50;
             Color1 = Color.FromArgb(255, 140, 162, 193);
@@ -349,7 +350,7 @@ namespace WeatherGetApp
         }
         public void GetWeather()
         {
-            if (City == string.Empty || City == null)
+            if (City == "Поиск" || City == string.Empty || City == null)
                 _weatherInfo = _weatherGet.GetWeather();
             else
                 _weatherInfo = _weatherGet.GetWeather(City);
@@ -378,6 +379,7 @@ namespace WeatherGetApp
                         _write.SetValue(nameof(TimeDelay), TimeDelay.ToString(), RegistryValueKind.String);
                         _write.SetValue(nameof(Top), Top.ToString(), RegistryValueKind.String);
                         _write.SetValue(nameof(Left), Left.ToString(), RegistryValueKind.String);
+                        _write.SetValue(nameof(City), City, RegistryValueKind.String);
                     }
                 }
                 else
@@ -393,6 +395,7 @@ namespace WeatherGetApp
                     TimeDelay = int.Parse(_read.GetValue(nameof(TimeDelay)).ToString());
                     Top = double.Parse(_read.GetValue(nameof(Top)).ToString());
                     Left = double.Parse(_read.GetValue(nameof(Left)).ToString());
+                    City = _read.GetValue(nameof(City)).ToString();
                 }
             }
 
@@ -429,6 +432,7 @@ namespace WeatherGetApp
                 _write.SetValue(nameof(TimeDelay), TimeDelay.ToString(), RegistryValueKind.String);
                 _write.SetValue(nameof(Top), Top.ToString(), RegistryValueKind.String);
                 _write.SetValue(nameof(Left), Left.ToString(), RegistryValueKind.String);
+                _write.SetValue(nameof(City), City, RegistryValueKind.String);
             }
 
         }
