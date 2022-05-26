@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
 	<UseWindowsForms>true</UseWindowsForms>
+	<ApplicationIcon>okIcon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +18,10 @@
     <None Remove="Resources\SnowStatus.png" />
     <None Remove="Resources\SnowWithRainStatus.png" />
     <None Remove="Resources\SunStatus.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="okIcon.ico" />
   </ItemGroup>
 
   <ItemGroup>
