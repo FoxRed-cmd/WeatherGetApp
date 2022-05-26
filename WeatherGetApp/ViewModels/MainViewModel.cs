@@ -136,6 +136,7 @@ namespace WeatherGetApp
         }
         #endregion
 
+        #region Settings
         private double _top;
         private double _left;
         private bool _isAutorun;
@@ -273,6 +274,7 @@ namespace WeatherGetApp
                 }
             }
         }
+        #endregion
 
         public MainViewModel()
         {
@@ -356,6 +358,8 @@ namespace WeatherGetApp
                         _write.SetValue(nameof(Angle), Angle.ToString(), RegistryValueKind.String);
                         _write.SetValue(nameof(IsDynamic), IsDynamic, RegistryValueKind.String);
                         _write.SetValue(nameof(TimeDelay), TimeDelay.ToString(), RegistryValueKind.String);
+                        _write.SetValue(nameof(Top), Top.ToString(), RegistryValueKind.String);
+                        _write.SetValue(nameof(Left), Left.ToString(), RegistryValueKind.String);
                     }
                 }
                 else
@@ -369,6 +373,8 @@ namespace WeatherGetApp
                     Angle = double.Parse(_read.GetValue(nameof(Angle)).ToString());
                     IsDynamic = bool.Parse(_read.GetValue(nameof(IsDynamic)).ToString());
                     TimeDelay = int.Parse(_read.GetValue(nameof(TimeDelay)).ToString());
+                    Top = double.Parse(_read.GetValue(nameof(Top)).ToString());
+                    Left = double.Parse(_read.GetValue(nameof(Left)).ToString());
                 }
             }
 
@@ -403,6 +409,8 @@ namespace WeatherGetApp
                 _write.SetValue(nameof(Angle), Angle.ToString(), RegistryValueKind.String);
                 _write.SetValue(nameof(IsDynamic), IsDynamic, RegistryValueKind.String);
                 _write.SetValue(nameof(TimeDelay), TimeDelay.ToString(), RegistryValueKind.String);
+                _write.SetValue(nameof(Top), Top.ToString(), RegistryValueKind.String);
+                _write.SetValue(nameof(Left), Left.ToString(), RegistryValueKind.String);
             }
 
         }
