@@ -42,11 +42,11 @@
             <TextBox x:Name="searchField" Style="{StaticResource TextBoxStyle1}" Width="280" Padding="0" HorizontalAlignment="Left"
                      VerticalAlignment="Top" FontWeight="Bold"
                      FontSize="20" Background="Transparent" BorderBrush="#01ABADB3" SelectionBrush="#CC4680E4"
-                     Foreground="{Binding TextColorBrush}" CaretBrush="WhiteSmoke"
+                     Foreground="{Binding TextColorBrush}" CaretBrush="{Binding TextColorBrush}"
                      Text="{Binding City, UpdateSourceTrigger=PropertyChanged}" FontFamily="Segoe UI Semilight"/>
 
             <Grid Margin="3 0 0 0">
-                <Line x:Name="txtLine" StrokeThickness="1" Visibility="Hidden" Stroke="White"/>
+                <Line x:Name="txtLine" StrokeThickness="1" Visibility="Hidden" Stroke="{Binding TextColorBrush}"/>
             </Grid>
 
             <Grid Background="Transparent" Margin="0 5 0 0">
