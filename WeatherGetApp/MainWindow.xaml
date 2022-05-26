@@ -10,8 +10,8 @@
         WindowStyle="None" Background="Transparent"
         ResizeMode="NoResize" AllowsTransparency="True"
         ShowInTaskbar="False"
-        Top="{Binding Top}"
-        Left="{Binding Left}"
+        Top="{Binding Top, Mode=TwoWay}"
+        Left="{Binding Left, Mode=TwoWay}"
         Loaded="Window_Loaded" Closing="Window_Closing">
     <Grid Background="Transparent">
         <Border CornerRadius="12" MouseLeftButtonDown="Border_MouseLeftButtonDown" Grid.RowSpan="2">

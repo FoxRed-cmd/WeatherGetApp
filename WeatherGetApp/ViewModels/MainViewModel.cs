@@ -289,11 +289,13 @@ namespace WeatherGetApp
             TimeDelay = 50;
 
             ReadConfig();
-
+#if !DEBUG
             GetWeather();
             UpdateWeatherInfo();
+#endif
+            if (IsDynamic)
+                DynamicBackground();
 
-            DynamicBackground();
         }
 
         public void UpdateWeatherInfo()
