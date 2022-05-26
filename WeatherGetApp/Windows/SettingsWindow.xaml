@@ -1,0 +1,83 @@
+﻿<Window x:Class="WeatherGetApp.Windows.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WeatherGetApp.Windows"
+        xmlns:xctk1="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="Настройки" Height="300" Width="420"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing">
+    <Grid>
+        <Border CornerRadius="12" Margin="5">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <LinearGradientBrush.RelativeTransform>
+                        <TransformGroup>
+                            <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                            <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                            <RotateTransform Angle="{Binding Angle}" CenterX="0.5" CenterY="0.5"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </LinearGradientBrush.RelativeTransform>
+                    <GradientStop Color="{Binding Color1}"/>
+                    <GradientStop Color="{Binding Color2}" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <StackPanel Margin="10">
+                <CheckBox x:Name="checkAutoRun" IsChecked="{Binding IsAutorun}" Content="Запускать вместе с Windows"
+                          Foreground="{Binding TextColorBrush}" FontFamily="Segoe UI Semilight" 
+                          FontSize="14" VerticalContentAlignment="Center"
+                          HorizontalContentAlignment="Center"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Цвет 1:" Foreground="{Binding TextColorBrush}" 
+                           FontFamily="Segoe UI Semilight" FontSize="14"
+                               Margin="0 5 5 5"/>
+                    <xctk1:ColorPicker SelectedColor="{Binding Color1}"
+                                       Margin="5" Width="320"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Цвет 2:" Foreground="{Binding TextColorBrush}" 
+                           FontFamily="Segoe UI Semilight" FontSize="14"
+                           Margin="0 5 2 5"/>
+                    <xctk1:ColorPicker SelectedColor="{Binding Color2}"
+                                       Margin="5" Width="320"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Угол градиента:" Foreground="{Binding TextColorBrush}" 
+                           FontFamily="Segoe UI Semilight" FontSize="14"
+                           Margin="0 5 5 5"/>
+                    <Slider Margin="5 10" Width="250"
+                            Maximum="360" Minimum="0"
+                            Value="{Binding Angle}"
+                            IsSnapToTickEnabled="True"
+                            TickFrequency="1"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Цвет текста:" Foreground="{Binding TextColorBrush}" 
+                           FontFamily="Segoe UI Semilight" FontSize="14"
+                           Margin="0 5 2 5"/>
+                    <xctk1:ColorPicker SelectedColor="{Binding TextColor}"
+                                       Margin="5" Width="280"/>
+                </StackPanel>
+                <CheckBox x:Name="checkDynamic" IsChecked="{Binding IsDynamic}" Content="Включить динамический фон"
+                          Foreground="{Binding TextColorBrush}" FontFamily="Segoe UI Semilight" 
+                          FontSize="14" VerticalContentAlignment="Center"
+                          HorizontalContentAlignment="Center"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Частота обновления фона:" Foreground="{Binding TextColorBrush}" 
+                           FontFamily="Segoe UI Semilight" FontSize="14"
+                           Margin="0 5 5 5"/>
+                    <Slider Margin="5 10" Width="180"
+                            Maximum="100" Minimum="10"
+                            Value="{Binding TimeDelay}"
+                            IsSnapToTickEnabled="True"
+                            TickFrequency="1"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

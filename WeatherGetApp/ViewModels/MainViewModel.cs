@@ -1,0 +1,448 @@
+﻿using Microsoft.Win32;
+using System;
+using System.Reflection;
+using System.Threading.Tasks;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using WeatherGetApp.HelperClasses;
+
+namespace WeatherGetApp
+{
+    internal class MainViewModel : BaseViewModel
+    {
+        #region Weather
+
+        private string _city;
+        private string _temperature;
+        private string _measureSymbol;
+        private string _sky;
+        private string _feel;
+        private string _wind;
+        private string _humidity;
+        private string _pressure;
+
+        private WeatherGet _weatherGet;
+        private WeatherInfo? _weatherInfo;
+
+        private BitmapImage _weatherIcon;
+
+        public string City
+        {
+            get => _city;
+            set
+            {
+                if (_city != value)
+                {
+                    _city = value;
+                    NotifyPropertyChanged(nameof(City));
+                }
+            }
+        }
+        public string Temperature
+        {
+            get => _temperature;
+            set
+            {
+                if (_temperature != value)
+                {
+                    _temperature = value;
+                    NotifyPropertyChanged(nameof(Temperature));
+                }
+            }
+        }
+        public string MeasureSymbol
+        {
+            get => _measureSymbol;
+            set
+            {
+                if (_measureSymbol != value)
+                {
+                    _measureSymbol = value;
+                    NotifyPropertyChanged(nameof(MeasureSymbol));
+                }
+            }
+        }
+        public string Sky
+        {
+            get => _sky;
+            set
+            {
+                if (_sky != value)
+                {
+                    _sky = value;
+                    NotifyPropertyChanged(nameof(Sky));
+                }
+            }
+        }
+        public string Feel
+        {
+            get => _feel;
+            set
+            {
+                if (_feel != value)
+                {
+                    _feel = value;
+                    NotifyPropertyChanged(nameof(Feel));
+                }
+            }
+        }
+        public string Wind
+        {
+            get => _wind;
+            set
+            {
+                if (_wind != value)
+                {
+                    _wind = value;
+                    NotifyPropertyChanged(nameof(Wind));
+                }
+            }
+        }
+        public string Humidity
+        {
+            get => _humidity;
+            set
+            {
+                if (_humidity != value)
+                {
+                    _humidity = value;
+                    NotifyPropertyChanged(nameof(Humidity));
+                }
+            }
+        }
+        public string Pressure
+        {
+            get => _pressure;
+            set
+            {
+                if (_pressure != value)
+                {
+                    _pressure = value;
+                    NotifyPropertyChanged(nameof(Pressure));
+                }
+            }
+        }
+        public BitmapImage WeatherIcon
+        {
+            get => _weatherIcon;
+            set
+            {
+                if (_weatherIcon != value)
+                {
+                    _weatherIcon = value;
+                    NotifyPropertyChanged(nameof(WeatherIcon));
+                }
+            }
+        }
+        #endregion
+
+        private double _top;
+        private double _left;
+        private bool _isAutorun;
+        private Color _color1;
+        private Color _color2;
+        private Color _textColor;
+        private Brush _textColorBrush;
+        private double _angle;
+        private bool _isDynamic;
+        private int _timeDelay;
+
+        private RegistryKey? _read;
+        private RegistryKey _write;
+        private Task _task;
+        private ColorHSL _colorHSV;
+
+        public double Top
+        {
+            get => _top;
+            set
+            {
+                if (_top != value)
+                {
+                    _top = value;
+                    NotifyPropertyChanged(nameof(Top));
+                }
+            }
+        }
+        public double Left
+        {
+            get => _left;
+            set
+            {
+                if (_left != value)
+                {
+                    _left = value;
+                    NotifyPropertyChanged(nameof(Left));
+                }
+            }
+        }
+        public bool IsAutorun
+        {
+            get => _isAutorun;
+            set 
+            {
+                if (_isAutorun != value)
+                {
+                    _isAutorun = value;
+                    NotifyPropertyChanged(nameof(IsAutorun));
+                }
+            }
+        }
+        public Color Color1
+        {
+            get => _color1;
+            set
+            {
+                if (_color1 != value)
+                {
+                    _color1 = value;
+                    NotifyPropertyChanged(nameof(Color1));
+                }
+            }
+        }
+        public Color Color2
+        {
+            get => _color2;
+            set
+            {
+                if (_color2 != value)
+                {
+                    _color2 = value;
+                    NotifyPropertyChanged(nameof(Color2));
+                }
+            }
+        }
+        public Color TextColor
+        {
+            get => _textColor;
+            set 
+            {
+                if (_textColor != value)
+                {
+                    _textColor = value;
+                    NotifyPropertyChanged(nameof(TextColor));
+                    TextColorBrush = new SolidColorBrush(_textColor);
+                }
+            }
+        }
+        public Brush TextColorBrush
+        {
+            get => _textColorBrush;
+            set 
+            {
+                if (_textColorBrush != value)
+                {
+                    _textColorBrush = value;
+                    NotifyPropertyChanged(nameof(TextColorBrush));
+                }
+            }
+        }
+        public double Angle
+        {
+            get => _angle;
+            set
+            {
+                if (_angle != value)
+                {
+                    _angle = value;
+                    NotifyPropertyChanged(nameof(Angle));
+                }
+            }
+        }
+        public bool IsDynamic
+        {
+            get => _isDynamic;
+            set
+            {
+                if (_isDynamic != value)
+                {
+                    _isDynamic = value;
+                    NotifyPropertyChanged(nameof(IsDynamic));
+                }
+            }
+        }
+        public int TimeDelay
+        {
+            get => _timeDelay;
+            set
+            {
+                if (_timeDelay != value)
+                {
+                    _timeDelay = value;
+                    NotifyPropertyChanged(nameof(TimeDelay));
+                }
+            }
+        }
+
+        public MainViewModel()
+        {
+            _weatherGet = new WeatherGet();
+            Top = 50;
+            Left = 50;
+            Color1 = Color.FromArgb(255, 140, 162, 193);
+            Color2 = Color.FromArgb(255, 51, 120, 212);
+            TextColor = Color.FromArgb(255, 255, 255, 255);
+            Angle = 45;
+            IsDynamic = false;
+            TimeDelay = 50;
+
+            ReadConfig();
+
+            GetWeather();
+            UpdateWeatherInfo();
+
+            DynamicBackground();
+        }
+
+        public void UpdateWeatherInfo()
+        {
+            if (_weatherInfo != null)
+            {
+                City = _weatherInfo.City;
+                Temperature = _weatherInfo.Temperature;
+                MeasureSymbol = _weatherInfo.MeasureSymbol;
+                Sky = _weatherInfo.Sky;
+                Feel = "Ощущается как " + _weatherInfo.FeelLikeTemperature + _weatherInfo.MeasureSymbol;
+                Wind = _weatherInfo.Wind;
+                Humidity = _weatherInfo.Humidity;
+                Pressure = _weatherInfo.Pressure;
+
+                switch (Sky)
+                {
+                    case "Ясно":
+                    case "Малооблачно":
+                        WeatherIcon = new BitmapImage(new Uri("/Resources/SunStatus.png", UriKind.Relative));
+                        break;
+                    case "Пасмурно":
+                        WeatherIcon = new BitmapImage(new Uri("/Resources/CloudStatus.png", UriKind.Relative));
+                        break;
+                    case "Облачно с прояснениями":
+                        WeatherIcon = new BitmapImage(new Uri("/Resources/CloudStatus2.png", UriKind.Relative));
+                        break;
+                    case "Небольшой дождь":
+                        WeatherIcon = new BitmapImage(new Uri("/Resources/RainStatus.png", UriKind.Relative));
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        public void GetWeather()
+        {
+            if (City == string.Empty || City == null)
+                _weatherInfo = _weatherGet.GetWeather();
+            else
+                _weatherInfo = _weatherGet.GetWeather(City);
+        }
+        public void ReadConfig()
+        {
+            using (_read = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"))
+            {
+                if (_read == null)
+                    return;
+                if (_read.GetValue("WeatherGetApp") != null)
+                    _isAutorun = true;
+            }
+
+            using (_read = Registry.CurrentUser.OpenSubKey("SOFTWARE\\WeatherGetApp"))
+            {
+                if (_read == null)
+                {
+                    using (_write = Registry.CurrentUser.CreateSubKey("SOFTWARE\\WeatherGetApp"))
+                    {
+                        _write.SetValue(nameof(Color1), $"{Color1.A},{Color1.R},{Color1.G},{Color1.B}", RegistryValueKind.String);
+                        _write.SetValue(nameof(Color2), $"{Color2.A},{Color2.R},{Color2.G},{Color2.B}", RegistryValueKind.String);
+                        _write.SetValue(nameof(TextColor), $"{TextColor.A},{TextColor.R},{TextColor.G},{TextColor.B}", RegistryValueKind.String);
+                        _write.SetValue(nameof(Angle), Angle.ToString(), RegistryValueKind.String);
+                        _write.SetValue(nameof(IsDynamic), IsDynamic, RegistryValueKind.String);
+                        _write.SetValue(nameof(TimeDelay), TimeDelay.ToString(), RegistryValueKind.String);
+                    }
+                }
+                else
+                {
+                    string[] argb = _read.GetValue(nameof(Color1)).ToString().Split(',');
+                    Color1 = Color.FromArgb(byte.Parse(argb[0]), byte.Parse(argb[1]), byte.Parse(argb[2]), byte.Parse(argb[3]));
+                    argb = _read.GetValue(nameof(Color2)).ToString().Split(',');
+                    Color2 = Color.FromArgb(byte.Parse(argb[0]), byte.Parse(argb[1]), byte.Parse(argb[2]), byte.Parse(argb[3]));
+                    argb = _read.GetValue(nameof(TextColor)).ToString().Split(',');
+                    TextColor = Color.FromArgb(byte.Parse(argb[0]), byte.Parse(argb[1]), byte.Parse(argb[2]), byte.Parse(argb[3]));
+                    Angle = double.Parse(_read.GetValue(nameof(Angle)).ToString());
+                    IsDynamic = bool.Parse(_read.GetValue(nameof(IsDynamic)).ToString());
+                    TimeDelay = int.Parse(_read.GetValue(nameof(TimeDelay)).ToString());
+                }
+            }
+
+        }
+        public void WriteConfig()
+        {
+            if (_isAutorun == true)
+            {
+                using (_write = Registry.CurrentUser.CreateSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
+                {
+                    if (_write.GetValue("WeatherGetApp") == null)
+                    {
+                        string appPath = Assembly.GetExecutingAssembly().Location.Replace(".dll", ".exe");
+                        _write.SetValue("WeatherGetApp", appPath);
+                    }
+                }
+            }
+            else
+            {
+                using (_write = Registry.CurrentUser.CreateSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
+                {
+                    if (_write.GetValue("WeatherGetApp") != null)
+                        _write.DeleteValue("WeatherGetApp");
+                }
+            }
+
+            using (_write = Registry.CurrentUser.CreateSubKey("SOFTWARE\\WeatherGetApp"))
+            {
+                _write.SetValue(nameof(Color1), $"{Color1.A},{Color1.R},{Color1.G},{Color1.B}", RegistryValueKind.String);
+                _write.SetValue(nameof(Color2), $"{Color2.A},{Color2.R},{Color2.G},{Color2.B}", RegistryValueKind.String);
+                _write.SetValue(nameof(TextColor), $"{TextColor.A},{TextColor.R},{TextColor.G},{TextColor.B}", RegistryValueKind.String);
+                _write.SetValue(nameof(Angle), Angle.ToString(), RegistryValueKind.String);
+                _write.SetValue(nameof(IsDynamic), IsDynamic, RegistryValueKind.String);
+                _write.SetValue(nameof(TimeDelay), TimeDelay.ToString(), RegistryValueKind.String);
+            }
+
+        }
+        public void DynamicBackground()
+        {
+            _task = new Task( async () => 
+            {
+                void DynamicColor1()
+                {
+                    _colorHSV = ColorHSL.ColorToHSL(Color1);
+                    _colorHSV.Hue += 1;
+                    if (_colorHSV.Hue >= 360) _colorHSV.Hue = 0;
+                    Color1 = ColorHSL.HSLToRGB(_colorHSV, Color1.A);
+                }
+                void DynamicColor2()
+                {
+                    _colorHSV = ColorHSL.ColorToHSL(Color2);
+                    _colorHSV.Hue++;
+                    if (_colorHSV.Hue >= 360) _colorHSV.Hue = 0;
+                    Color2 = ColorHSL.HSLToRGB(_colorHSV, Color2.A);
+                }
+
+                while (IsDynamic)
+                {
+                    if (Angle < 360)
+                    {
+                        ++Angle;
+                    }
+                    else
+                    {
+                        Angle = 0;
+                        ++Angle;
+                    }
+                    DynamicColor1();
+                    DynamicColor2();
+
+                    await Task.Delay(TimeDelay);
+                }
+            });
+            _task.Start();
+        }
+    }
+}
