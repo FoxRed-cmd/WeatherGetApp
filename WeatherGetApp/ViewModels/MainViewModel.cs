@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Media;
@@ -21,6 +22,7 @@ namespace WeatherGetApp
         private string _humidity;
         private string _pressure;
         private string _dateTimeInfo;
+        private List<WeatherInfo.DaysWeatherInfo> _nextDaysWeather;
 
         private WeatherGet _weatherGet;
         private WeatherInfo? _weatherInfo;
@@ -144,6 +146,18 @@ namespace WeatherGetApp
                 {
                     _dateTimeInfo = value;
                     NotifyPropertyChanged(nameof(DateTimeInfo));
+                }
+            }
+        }
+        public List<WeatherInfo.DaysWeatherInfo> NextDaysWeather
+        {
+            get => _nextDaysWeather;
+            set
+            {
+                if (_nextDaysWeather != value)
+                {
+                    _nextDaysWeather = value;
+                    NotifyPropertyChanged(nameof(NextDaysWeather));
                 }
             }
         }
@@ -326,6 +340,7 @@ namespace WeatherGetApp
                 Wind = _weatherInfo.Wind;
                 Humidity = _weatherInfo.Humidity;
                 Pressure = _weatherInfo.Pressure;
+                
 
                 switch (Sky)
                 {
@@ -341,11 +356,20 @@ namespace WeatherGetApp
                         break;
                     case "Дождь":
                     case "Небольшой дождь":
+                    case "Ливни":
                         WeatherIcon = new BitmapImage(new Uri("/Resources/RainStatus.png", UriKind.Relative));
                         break;
                     default:
                         break;
                 }
+
+                foreach (var day in _weatherInfo.DaysWeather)
+                {
+                    SetWeatherIcons(day);
+                }
+
+                NextDaysWeather = _weatherInfo.DaysWeather;
+
             }
         }
         public void GetWeather()
@@ -486,6 +510,29 @@ namespace WeatherGetApp
                 
             });
             _dateTimeUpdate.Start();
+        }
+        private void SetWeatherIcons(WeatherInfo.DaysWeatherInfo daysWeatherInfo)
+        {
+            switch (daysWeatherInfo.Sky.ToLower())
+            {
+                case "ясно":
+                case "малооблачно":
+                    daysWeatherInfo.Icon = new BitmapImage(new Uri("/Resources/SunStatus.png", UriKind.Relative));
+                    break;
+                case "пасмурно":
+                    daysWeatherInfo.Icon = new BitmapImage(new Uri("/Resources/CloudStatus.png", UriKind.Relative));
+                    break;
+                case "облачно с прояснениями":
+                    daysWeatherInfo.Icon = new BitmapImage(new Uri("/Resources/CloudStatus2.png", UriKind.Relative));
+                    break;
+                case "дождь":
+                case "небольшой дождь":
+                case "ливни":
+                    daysWeatherInfo.Icon = new BitmapImage(new Uri("/Resources/RainStatus.png", UriKind.Relative));
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

@@ -29,6 +29,7 @@ namespace WeatherGetApp
         }
 
         private MainPage _mainPage;
+        private DaysWeatherPage _daysWeatherPage;
         private SettingsWindow _settingsWindow;
         private MainViewModel _viewModel;
         private Timer _timer;
@@ -123,6 +124,22 @@ namespace WeatherGetApp
             {
                 _settingsWindow = new SettingsWindow() { DataContext = _viewModel };
                 _settingsWindow.Show();
+            }
+        }
+
+        private void FontAwesome_MouseLeftButtonDown_2(object sender, MouseButtonEventArgs e)
+        {
+            if (arrowAngle.Angle == 0)
+            {
+                arrowAngle.Angle = 180;
+                if (_daysWeatherPage == null)
+                    _daysWeatherPage = new DaysWeatherPage() { DataContext = _viewModel };
+                mainFrame.Content = _daysWeatherPage;
+            }
+            else
+            {
+                arrowAngle.Angle = 0;
+                mainFrame.Content = _mainPage;
             }
         }
     }

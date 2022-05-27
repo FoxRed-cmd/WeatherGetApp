@@ -61,12 +61,27 @@
                                Foreground="{Binding TextColorBrush}">
                         
                     </TextBlock>
-                    <fa:FontAwesome Icon="Gear" FontSize="28" HorizontalAlignment="Right"
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <fa:FontAwesome Icon="ArrowRight" FontSize="28"
+                                        Margin="0 0 10 0" Foreground="{Binding TextColorBrush}"
+                                        Cursor="Hand" RenderTransformOrigin="0.5,0.5" MouseLeftButtonDown="FontAwesome_MouseLeftButtonDown_2">
+                            <fa:FontAwesome.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform x:Name="arrowAngle" Angle="0"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </fa:FontAwesome.RenderTransform>
+                        </fa:FontAwesome>
+                        <fa:FontAwesome Icon="Gear" FontSize="28"
                                     Margin="0 0 5 0" Foreground="{Binding TextColorBrush}" 
                                     Cursor="Hand"
                                     SpinDuration="0.6"
                                     MouseEnter="FontAwesome_MouseEnter" 
                                     MouseLeave="FontAwesome_MouseLeave" RenderTransformOrigin="0.5,0.5" MouseLeftButtonDown="FontAwesome_MouseLeftButtonDown_1"/>
+                    </StackPanel>
+                    
                 </Grid>
             </StackPanel>
         </Border>

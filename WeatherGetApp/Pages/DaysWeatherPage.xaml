@@ -1,0 +1,223 @@
+﻿<Page x:Class="WeatherGetApp.Pages.DaysWeatherPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WeatherGetApp.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="182" d:DesignWidth="322"
+      Title="DaysWeatherPage">
+    <Page.Resources>
+        <Style x:Key="TextBlockInfo" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontFamily" Value="Segoe UI Semilight"/>
+            <Setter Property="Foreground" Value="{Binding TextColorBrush}"/>
+        </Style>
+        <Style x:Key="Icon" TargetType="Image">
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Margin" Value="5 0 5 0"/>
+        </Style>
+        <Style x:Key="ScrollViewerStyle1" TargetType="{x:Type ScrollViewer}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                        <Grid x:Name="Grid" Background="{TemplateBinding Background}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Rectangle x:Name="Corner" Grid.Column="1" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.Row="1"/>
+                            <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanHorizontallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" CanVerticallyScroll="False" Grid.Column="0" Content="{TemplateBinding Content}" CanContentScroll="{TemplateBinding CanContentScroll}" Margin="{TemplateBinding Padding}" Grid.Row="0"/>
+                            <ScrollBar x:Name="PART_VerticalScrollBar" AutomationProperties.AutomationId="VerticalScrollBar" Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0" Grid.Row="0" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+                            <ScrollBar x:Name="PART_HorizontalScrollBar" AutomationProperties.AutomationId="HorizontalScrollBar" Cursor="Arrow" Grid.Column="0" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0" Orientation="Horizontal" Grid.Row="1" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+            <StackPanel Orientation="Vertical" Margin="10" CanHorizontallyScroll="True" CanVerticallyScroll="False">
+                <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="150">
+                    <Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Style="{StaticResource Icon}" Source="{Binding NextDaysWeather[0].Icon}"/>
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="вмавам" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="вам" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="вмвамва" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="вамвамвам" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="вамвамвамвамвамвамвам"
+                                       Width="100" TextWrapping="Wrap" Margin="0 0 5 0"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                    <Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Style="{StaticResource Icon}" Source="{Binding NextDaysWeather[0].Icon}"/>
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="вмавам" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="вам" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="вмвамва" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="вамвамвам" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="вамвамвамвамвамвамвам"
+                                       Width="100" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>-->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="150">
+                    <Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Style="{StaticResource Icon}" Source="{Binding NextDaysWeather[0].Icon}"/>
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[0].Day}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[0].Date}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[0].DayTemperature}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[0].NightTemperature}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[0].Sky}"
+                                       Width="100" TextWrapping="Wrap" Margin="0 0 5 0"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                    <Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Style="{StaticResource Icon}" Source="{Binding NextDaysWeather[1].Icon}"/>
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[1].Day}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[1].Date}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[1].DayTemperature}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[1].NightTemperature}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[1].Sky}" 
+                                       Width="100" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="160">
+                    <Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Style="{StaticResource Icon}" Source="{Binding NextDaysWeather[2].Icon}"/>
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[2].Day}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[2].Date}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[2].DayTemperature}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[2].NightTemperature}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[2].Sky}"
+                                           Width="100" TextWrapping="Wrap" Margin="0 0 5 0"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                    <Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Style="{StaticResource Icon}" Source="{Binding NextDaysWeather[3].Icon}"/>
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[3].Day}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[3].Date}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[3].DayTemperature}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[3].NightTemperature}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[3].Sky}"
+                                           Width="100" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="160">
+                    <Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Style="{StaticResource Icon}" Source="{Binding NextDaysWeather[4].Icon}"/>
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[4].Day}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[4].Date}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[4].DayTemperature}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[4].NightTemperature}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[4].Sky}"
+                                           Width="100" TextWrapping="Wrap" Margin="0 0 5 0"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                    <Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Style="{StaticResource Icon}" Source="{Binding NextDaysWeather[5].Icon}"/>
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[5].Day}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[5].Date}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[5].DayTemperature}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[5].NightTemperature}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[5].Sky}"
+                                           Width="100" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="160">
+                    <Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Style="{StaticResource Icon}" Source="{Binding NextDaysWeather[6].Icon}"/>
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[6].Day}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[6].Date}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[6].DayTemperature}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[6].NightTemperature}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[6].Sky}"
+                                           Width="100" TextWrapping="Wrap" Margin="0 0 5 0"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                    <Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Style="{StaticResource Icon}" Source="{Binding NextDaysWeather[7].Icon}"/>
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[7].Day}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[7].Date}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[7].DayTemperature}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[7].NightTemperature}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[7].Sky}"
+                                           Width="100" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="160">
+                    <Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Style="{StaticResource Icon}" Source="{Binding NextDaysWeather[8].Icon}"/>
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[8].Day}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[8].Date}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[8].DayTemperature}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[8].NightTemperature}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[8].Sky}"
+                                           Width="100" TextWrapping="Wrap" Margin="0 0 5 0"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                    <Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Style="{StaticResource Icon}" Source="{Binding NextDaysWeather[9].Icon}"/>
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[9].Day}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[9].Date}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[9].DayTemperature}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[9].NightTemperature}" />
+                                <TextBlock Style="{StaticResource TextBlockInfo}" Text="{Binding NextDaysWeather[9].Sky}"
+                                           Width="100" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

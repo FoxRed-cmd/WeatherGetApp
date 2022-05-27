@@ -11,7 +11,7 @@ namespace WeatherGetApp.Pages
             InitializeComponent();
             searchField.GotFocus += (s, e) => 
             {
-                if (searchField.Text == "Поиск")
+                if (searchField.Text == "Поиск" || searchField.Text == "Не удалось обновить информацию :(")
                     searchField.Text = string.Empty;
             };
             searchField.PreviewMouseLeftButtonUp += (s, e) => LineOn();
