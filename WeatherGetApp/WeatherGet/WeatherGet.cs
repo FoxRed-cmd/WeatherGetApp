@@ -255,6 +255,22 @@ namespace WeatherGetApp
                     }
                 }
             }
+            else
+            {
+                path = Assembly.GetExecutingAssembly().Location;
+                path = path.Remove(path.LastIndexOf("\\") + 1);
+                path += "cities.json";
+                if (File.Exists(path))
+                {
+                    using (Stream file = new FileStream(path, FileMode.Open))
+                    {
+                        using (StreamReader sr = new(file))
+                        {
+                            Cities = JsonSerializer.Deserialize<Dictionary<string, string>>(sr.ReadToEnd());
+                        }
+                    }
+                }
+            }
         }
     }
 }
