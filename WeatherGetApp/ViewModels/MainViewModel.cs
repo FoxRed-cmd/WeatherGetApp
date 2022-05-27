@@ -332,6 +332,8 @@ namespace WeatherGetApp
         {
             if (_weatherInfo != null)
             {
+                string temp = City;
+
                 City = _weatherInfo.City;
                 Temperature = _weatherInfo.Temperature;
                 MeasureSymbol = _weatherInfo.MeasureSymbol;
@@ -370,6 +372,8 @@ namespace WeatherGetApp
 
                 NextDaysWeather = _weatherInfo.DaysWeather;
 
+                if (temp == "Поиск")
+                    WriteConfig();
             }
         }
         public void GetWeather()
