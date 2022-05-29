@@ -4,11 +4,11 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
 using WeatherGetApp.Pages;
 using WeatherGetApp.Windows;
+using WeatherGetApp.HelperClasses;
 
 namespace WeatherGetApp
 {
@@ -86,9 +86,9 @@ namespace WeatherGetApp
             _viewModel.WriteConfig();
         }
 
-        private void FontAwesome_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => System.Windows.Application.Current.Shutdown();
+        private void FontAwesome_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => Application.Current.Shutdown();
 
-        private async void FontAwesome_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        private async void FontAwesome_MouseEnter(object sender, MouseEventArgs e)
         {
             var icon = sender as FontAwesome.WPF.FontAwesome;
             if (icon.Spin == true)
@@ -98,7 +98,7 @@ namespace WeatherGetApp
             icon.StopSpin();
         }
 
-        private void FontAwesome_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        private void FontAwesome_MouseLeave(object sender, MouseEventArgs e)
         {
             var icon = sender as FontAwesome.WPF.FontAwesome;
             icon.StopSpin();
@@ -120,7 +120,7 @@ namespace WeatherGetApp
 
         private void FontAwesome_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
         {
-            if (!System.Windows.Application.Current.Windows.OfType<SettingsWindow>().Any())
+            if (!Application.Current.Windows.OfType<SettingsWindow>().Any())
             {
                 _settingsWindow = new SettingsWindow() { DataContext = _viewModel };
                 _settingsWindow.Show();
