@@ -359,6 +359,7 @@ namespace WeatherGetApp
                     case "Дождь":
                     case "Небольшой дождь":
                     case "Ливни":
+                    case "Ливень":
                         WeatherIcon = new BitmapImage(new Uri("/Resources/RainStatus.png", UriKind.Relative));
                         break;
                     default:
@@ -532,6 +533,7 @@ namespace WeatherGetApp
                 case "дождь":
                 case "небольшой дождь":
                 case "ливни":
+                case "ливень":
                     daysWeatherInfo.Icon = new BitmapImage(new Uri("/Resources/RainStatus.png", UriKind.Relative));
                     break;
                 default:
