@@ -55,7 +55,7 @@ namespace WeatherGetApp
                     }
                     catch (Exception)
                     {
-                        return new() { City = "Не удалось обновить информацию :(" };
+                        return new() { Sky = "Не удалось обновить информацию :(" };
                     }
 
                     if (cityName == string.Empty)
@@ -97,7 +97,7 @@ namespace WeatherGetApp
                     nodes = _nodes.FindAll(node => node.InnerHtml.Contains("forecast-briefly__name") && node.InnerHtml.Contains("temp__value temp__value_with-unit")
                     && node.InnerHtml.Contains("forecast-briefly__condition") && node.ParentNode.Name == "a");
 
-                    for (int i = 2; i < 12; i++)
+                    for (int i = 2; i < 7; i++)
                     {
                         _weatherInfo.DaysWeather.Add(AddDayWeatherTextFormatting(nodes[i].InnerText.ToCharArray()));
                     }
@@ -107,7 +107,7 @@ namespace WeatherGetApp
             }
             else
             {
-                return new() { City = "Не удалось обновить информацию :(" };
+                return new() { Sky = "Не удалось обновить информацию :(" };
             }
         }
 
@@ -222,7 +222,7 @@ namespace WeatherGetApp
             string[] arr = str.Split(' ');
 
             WeatherInfo.DaysWeatherInfo daysWeatherInfo = new()
-            { Day = arr[0], Date = $"{arr[1]} {arr[3]}", DayTemperature = "Днём " + arr[4] + arr[5], NightTemperature = "Ночью " + arr[6] + arr[7] };
+            { Day = arr[0], Date = $"{arr[1]} {arr[3]}", DayTemperature = arr[4] + arr[5] + _weatherInfo.MeasureSymbol, NightTemperature = arr[6] + arr[7] + _weatherInfo.MeasureSymbol};
 
             for (int i = 8; i < arr.Length; i++)
             {

@@ -75,7 +75,7 @@
 
   <ItemGroup>
     <None Update="Resources\cities.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

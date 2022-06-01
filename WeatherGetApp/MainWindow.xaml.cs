@@ -28,14 +28,19 @@ namespace WeatherGetApp
             SetWindowLong(Handle, GWL_EXSTYLE, GetWindowLong(Handle, GWL_EXSTYLE) | WS_EX_TOOLWINDOW);
         }
 
+        private string _currentCity;
+
         private MainPage _mainPage;
         private DaysWeatherPage _daysWeatherPage;
         private SettingsWindow _settingsWindow;
+
         private MainViewModel _viewModel;
+
         private Timer _timer;
+        private Task _task;
+
         private Action _getWeatherAction;
         private Action _updatePropAction;
-        private Task _task;
         public MainWindow()
         {
             InitializeComponent();
@@ -44,20 +49,32 @@ namespace WeatherGetApp
 
             mainFrame.Content = _mainPage;
             _viewModel = _mainPage.DataContext as MainViewModel;
+
             _getWeatherAction = _viewModel.GetWeather;
             _updatePropAction = _viewModel.UpdateWeatherInfo;
 
             DataContext = _viewModel;
 
+            _currentCity = _viewModel.City;
+
             KeyDown += (s, e) =>
             {
                 if (e.Key == Key.Enter)
                 {
+                    if (_currentCity != _viewModel.City)
+                    {
+                        _currentCity = _viewModel.City;
+                        _viewModel.WriteConfig();
+                    }
+
                     _task = new Task(_getWeatherAction);
                     _task.Start();
+
                     Keyboard.ClearFocus();
                     _mainPage.LineOff();
+
                     while (!_task.IsCompleted) { };
+
                     _updatePropAction.Invoke();
                 }
             };
@@ -72,9 +89,17 @@ namespace WeatherGetApp
 
         private void UpdateInfo()
         {
+            if (_currentCity != _viewModel.City)
+            {
+                _currentCity = _viewModel.City;
+                _viewModel.WriteConfig();
+            }
+
             _task = new Task(_getWeatherAction);
             _task.Start();
+
             while (!_task.IsCompleted) { };
+
             _updatePropAction.Invoke();
         }
 

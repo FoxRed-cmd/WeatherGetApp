@@ -318,10 +318,10 @@ namespace WeatherGetApp
 
             ReadConfig();
             UpdateDateTime();
-#if !DEBUG
+
             GetWeather();
             UpdateWeatherInfo();
-#endif
+
 
             if (IsDynamic)
                 DynamicBackground();
