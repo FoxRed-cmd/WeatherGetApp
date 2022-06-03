@@ -175,6 +175,8 @@ namespace WeatherGetApp
         private bool _isDynamic;
         private int _timeDelay;
 
+        private bool _isSettingsChanged = false;
+
         private RegistryKey? _read;
         private RegistryKey _write;
         private Task _task;
@@ -188,6 +190,7 @@ namespace WeatherGetApp
                 if (_top != value)
                 {
                     _top = value;
+                    _isSettingsChanged = true;
                     NotifyPropertyChanged(nameof(Top));
                 }
             }
@@ -200,6 +203,7 @@ namespace WeatherGetApp
                 if (_left != value)
                 {
                     _left = value;
+                    _isSettingsChanged = true;
                     NotifyPropertyChanged(nameof(Left));
                 }
             }
@@ -212,6 +216,7 @@ namespace WeatherGetApp
                 if (_isAutorun != value)
                 {
                     _isAutorun = value;
+                    _isSettingsChanged = true;
                     NotifyPropertyChanged(nameof(IsAutorun));
                 }
             }
@@ -224,6 +229,7 @@ namespace WeatherGetApp
                 if (_color1 != value)
                 {
                     _color1 = value;
+                    _isSettingsChanged = true;
                     NotifyPropertyChanged(nameof(Color1));
                 }
             }
@@ -236,6 +242,7 @@ namespace WeatherGetApp
                 if (_color2 != value)
                 {
                     _color2 = value;
+                    _isSettingsChanged = true;
                     NotifyPropertyChanged(nameof(Color2));
                 }
             }
@@ -248,6 +255,7 @@ namespace WeatherGetApp
                 if (_textColor != value)
                 {
                     _textColor = value;
+                    _isSettingsChanged = true;
                     NotifyPropertyChanged(nameof(TextColor));
                     TextColorBrush = new SolidColorBrush(_textColor);
                 }
@@ -261,6 +269,7 @@ namespace WeatherGetApp
                 if (_textColorBrush != value)
                 {
                     _textColorBrush = value;
+                    _isSettingsChanged = true;
                     NotifyPropertyChanged(nameof(TextColorBrush));
                 }
             }
@@ -273,6 +282,7 @@ namespace WeatherGetApp
                 if (_angle != value)
                 {
                     _angle = value;
+                    _isSettingsChanged = true;
                     NotifyPropertyChanged(nameof(Angle));
                 }
             }
@@ -285,6 +295,7 @@ namespace WeatherGetApp
                 if (_isDynamic != value)
                 {
                     _isDynamic = value;
+                    _isSettingsChanged = true;
                     NotifyPropertyChanged(nameof(IsDynamic));
                 }
             }
@@ -297,11 +308,14 @@ namespace WeatherGetApp
                 if (_timeDelay != value)
                 {
                     _timeDelay = value;
+                    _isSettingsChanged = true;
                     NotifyPropertyChanged(nameof(TimeDelay));
                 }
             }
         }
         #endregion
+
+        
 
         public MainViewModel()
         {
@@ -431,39 +445,44 @@ namespace WeatherGetApp
         }
         public void WriteConfig()
         {
-            if (_isAutorun == true)
+            if (_isSettingsChanged == true)
             {
-                using (_write = Registry.CurrentUser.CreateSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
+                if (_isAutorun == true)
                 {
-                    if (_write.GetValue("WeatherGetApp") == null)
+                    using (_write = Registry.CurrentUser.CreateSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
                     {
-                        string appPath = Assembly.GetExecutingAssembly().Location.Replace(".dll", ".exe");
-                        _write.SetValue("WeatherGetApp", appPath);
+                        if (_write.GetValue("WeatherGetApp") == null)
+                        {
+                            string appPath = Assembly.GetExecutingAssembly().Location.Replace(".dll", ".exe");
+                            _write.SetValue("WeatherGetApp", appPath);
+                        }
                     }
                 }
-            }
-            else
-            {
-                using (_write = Registry.CurrentUser.CreateSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
+                else
                 {
-                    if (_write.GetValue("WeatherGetApp") != null)
-                        _write.DeleteValue("WeatherGetApp");
+                    using (_write = Registry.CurrentUser.CreateSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
+                    {
+                        if (_write.GetValue("WeatherGetApp") != null)
+                            _write.DeleteValue("WeatherGetApp");
+                    }
                 }
-            }
 
-            using (_write = Registry.CurrentUser.CreateSubKey("SOFTWARE\\WeatherGetApp"))
-            {
-                _write.SetValue(nameof(Color1), $"{Color1.A},{Color1.R},{Color1.G},{Color1.B}", RegistryValueKind.String);
-                _write.SetValue(nameof(Color2), $"{Color2.A},{Color2.R},{Color2.G},{Color2.B}", RegistryValueKind.String);
-                _write.SetValue(nameof(TextColor), $"{TextColor.A},{TextColor.R},{TextColor.G},{TextColor.B}", RegistryValueKind.String);
-                _write.SetValue(nameof(Angle), Angle.ToString(), RegistryValueKind.String);
-                _write.SetValue(nameof(IsDynamic), IsDynamic, RegistryValueKind.String);
-                _write.SetValue(nameof(TimeDelay), TimeDelay.ToString(), RegistryValueKind.String);
-                _write.SetValue(nameof(Top), Top.ToString(), RegistryValueKind.String);
-                _write.SetValue(nameof(Left), Left.ToString(), RegistryValueKind.String);
-                _write.SetValue(nameof(City), City, RegistryValueKind.String);
-            }
+                using (_write = Registry.CurrentUser.CreateSubKey("SOFTWARE\\WeatherGetApp"))
+                {
+                    _write.SetValue(nameof(Color1), $"{Color1.A},{Color1.R},{Color1.G},{Color1.B}", RegistryValueKind.String);
+                    _write.SetValue(nameof(Color2), $"{Color2.A},{Color2.R},{Color2.G},{Color2.B}", RegistryValueKind.String);
+                    _write.SetValue(nameof(TextColor), $"{TextColor.A},{TextColor.R},{TextColor.G},{TextColor.B}", RegistryValueKind.String);
+                    _write.SetValue(nameof(Angle), Angle.ToString(), RegistryValueKind.String);
+                    _write.SetValue(nameof(IsDynamic), IsDynamic, RegistryValueKind.String);
+                    _write.SetValue(nameof(TimeDelay), TimeDelay.ToString(), RegistryValueKind.String);
+                    _write.SetValue(nameof(Top), Top.ToString(), RegistryValueKind.String);
+                    _write.SetValue(nameof(Left), Left.ToString(), RegistryValueKind.String);
+                    if (City != null)
+                        _write.SetValue(nameof(City), City, RegistryValueKind.String);
+                }
 
+                _isSettingsChanged = false;
+            }
         }
         public void DynamicBackground()
         {
