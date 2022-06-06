@@ -23,31 +23,31 @@
                             <TranslateTransform/>
                         </TransformGroup>
                     </LinearGradientBrush.RelativeTransform>
-                    <GradientStop Color="{Binding Color1}"/>
-                    <GradientStop Color="{Binding Color2}" Offset="1"/>
+                    <GradientStop Color="#6F9DE0"/>
+                    <GradientStop Color="#3378D4" Offset="1"/>
                 </LinearGradientBrush>
             </Border.Background>
             <StackPanel Margin="10">
                 <CheckBox x:Name="checkAutoRun" IsChecked="{Binding IsAutorun}" Content="Запускать вместе с Windows"
-                          Foreground="{Binding TextColorBrush}" FontFamily="Segoe UI Semilight" 
+                          Foreground="WhiteSmoke" FontFamily="Segoe UI Semilight" 
                           FontSize="14" VerticalContentAlignment="Center"
-                          HorizontalContentAlignment="Center"/>
+                          HorizontalContentAlignment="Center" Margin="0 0 0 5"/>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Цвет 1:" Foreground="{Binding TextColorBrush}" 
+                    <TextBlock Text="Цвет 1:" Foreground="WhiteSmoke" 
                            FontFamily="Segoe UI Semilight" FontSize="14"
                                Margin="0 5 5 5"/>
                     <xctk1:ColorPicker SelectedColor="{Binding Color1}"
                                        Margin="5" Width="320"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Цвет 2:" Foreground="{Binding TextColorBrush}" 
+                    <TextBlock Text="Цвет 2:" Foreground="WhiteSmoke" 
                            FontFamily="Segoe UI Semilight" FontSize="14"
                            Margin="0 5 3   5"/>
                     <xctk1:ColorPicker SelectedColor="{Binding Color2}"
                                        Margin="5" Width="320"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Угол градиента:" Foreground="{Binding TextColorBrush}" 
+                    <TextBlock Text="Угол градиента:" Foreground="WhiteSmoke" 
                            FontFamily="Segoe UI Semilight" FontSize="14"
                            Margin="0 5 5 5"/>
                     <Slider Margin="5 10" Width="270"
@@ -57,18 +57,18 @@
                             TickFrequency="1"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Цвет текста:" Foreground="{Binding TextColorBrush}" 
+                    <TextBlock Text="Цвет текста:" Foreground="WhiteSmoke" 
                            FontFamily="Segoe UI Semilight" FontSize="14"
                            Margin="0 5 2 5"/>
                     <xctk1:ColorPicker SelectedColor="{Binding TextColor}"
                                        Margin="5" Width="292"/>
                 </StackPanel>
                 <CheckBox x:Name="checkDynamic" IsChecked="{Binding IsDynamic}" Content="Включить динамический фон"
-                          Foreground="{Binding TextColorBrush}" FontFamily="Segoe UI Semilight" 
+                          Foreground="WhiteSmoke" FontFamily="Segoe UI Semilight" 
                           FontSize="14" VerticalContentAlignment="Center"
-                          HorizontalContentAlignment="Center"/>
+                          HorizontalContentAlignment="Center" Margin="0 5 0 5"/>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Частота обновления фона:" Foreground="{Binding TextColorBrush}" 
+                    <TextBlock Text="Частота обновления фона:" Foreground="WhiteSmoke" 
                            FontFamily="Segoe UI Semilight" FontSize="14"
                            Margin="0 5 5 5"/>
                     <Slider Margin="5 10" Width="200"
