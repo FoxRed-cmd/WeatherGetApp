@@ -37,7 +37,6 @@ namespace WeatherGetApp
         private MainViewModel _viewModel;
 
         private Timer _timer;
-        private Task _task;
 
         private Action _getWeatherAction;
         private Action _updatePropAction;
@@ -67,13 +66,10 @@ namespace WeatherGetApp
                         _viewModel.WriteConfig();
                     }
 
-                    _task = new Task(_getWeatherAction);
-                    _task.Start();
+                    _getWeatherAction.Invoke();
 
                     Keyboard.ClearFocus();
                     _mainPage.LineOff();
-
-                    while (!_task.IsCompleted) { };
 
                     _updatePropAction.Invoke();
                 }
@@ -95,11 +91,7 @@ namespace WeatherGetApp
                 _viewModel.WriteConfig();
             }
 
-            _task = new Task(_getWeatherAction);
-            _task.Start();
-
-            while (!_task.IsCompleted) { };
-
+            _getWeatherAction.Invoke();
             _updatePropAction.Invoke();
         }
 
