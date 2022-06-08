@@ -69,6 +69,9 @@
                         <TextBlock Text="{Binding Feel}" FontSize="14" Width="Auto" Height="Auto"
                                TextAlignment="Center" HorizontalAlignment="Left"
                                VerticalAlignment="Top" Foreground="{Binding TextColorBrush}" FontFamily="Segoe UI Semilight"/>
+                        <TextBlock Text="{Binding UpdateTimeInfo}" FontSize="14" Width="Auto" Height="Auto"
+                               TextAlignment="Center" HorizontalAlignment="Left"
+                               VerticalAlignment="Top" Foreground="{Binding TextColorBrush}" FontFamily="Segoe UI Semilight"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>

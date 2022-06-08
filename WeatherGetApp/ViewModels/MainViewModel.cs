@@ -22,6 +22,7 @@ namespace WeatherGetApp
         private string _humidity;
         private string _pressure;
         private string _dateTimeInfo;
+        private string _updateTimeInfo;
         private List<WeatherInfo.DaysWeatherInfo> _nextDaysWeather;
 
         private WeatherGet _weatherGet;
@@ -146,6 +147,18 @@ namespace WeatherGetApp
                 {
                     _dateTimeInfo = value;
                     NotifyPropertyChanged(nameof(DateTimeInfo));
+                }
+            }
+        }
+        public string UpdateTimeInfo
+        {
+            get => _updateTimeInfo;
+            set
+            {
+                if (_updateTimeInfo != value)
+                {
+                    _updateTimeInfo = value;
+                    NotifyPropertyChanged(nameof(UpdateTimeInfo));
                 }
             }
         }
@@ -347,6 +360,8 @@ namespace WeatherGetApp
             if (_weatherInfo != null)
             {
                 string temp = City;
+
+                UpdateTimeInfo = $"Обновлено в {DateTime.Now:HH:mm}";
 
                 City = _weatherInfo.City;
                 Temperature = _weatherInfo.Temperature;
