@@ -55,7 +55,17 @@ namespace WeatherGetApp
                     }
                     catch (Exception)
                     {
-                        return new() { Sky = "Не удалось обновить информацию :(" };
+                        return new()
+                        {
+                            Sky = "Не удалось обновить информацию :(",
+                            City = string.Empty,
+                            FeelLikeTemperature = string.Empty,
+                            Humidity = string.Empty,
+                            MeasureSymbol = string.Empty,
+                            Pressure = string.Empty,
+                            Temperature = string.Empty,
+                            Wind = string.Empty
+                        };
                     }
 
                     if (cityName == string.Empty)
@@ -88,7 +98,7 @@ namespace WeatherGetApp
                         }
                     }
 
-                    _weatherInfo.FeelLikeTemperature = strArr[^1];
+                    _weatherInfo.FeelLikeTemperature = "Ощущается как " + strArr[^1];
                     _weatherInfo.Wind = nodes[0].InnerText;
                     _weatherInfo.Humidity = nodes[1].InnerText;
                     _weatherInfo.Pressure = nodes[2].InnerText;
@@ -107,7 +117,17 @@ namespace WeatherGetApp
             }
             else
             {
-                return new() { Sky = "Не удалось обновить информацию :(" };
+                return new() 
+                { 
+                    Sky = "Не удалось обновить информацию :(", 
+                    City = string.Empty, 
+                    FeelLikeTemperature = string.Empty,
+                    Humidity = string.Empty,
+                    MeasureSymbol = string.Empty,
+                    Pressure = string.Empty,
+                    Temperature = string.Empty,
+                    Wind = string.Empty
+                };
             }
         }
 

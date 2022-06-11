@@ -367,7 +367,7 @@ namespace WeatherGetApp
                 Temperature = _weatherInfo.Temperature;
                 MeasureSymbol = _weatherInfo.MeasureSymbol;
                 Sky = _weatherInfo.Sky;
-                Feel = "Ощущается как " + _weatherInfo.FeelLikeTemperature + _weatherInfo.MeasureSymbol;
+                Feel = _weatherInfo.FeelLikeTemperature + _weatherInfo.MeasureSymbol;
                 Wind = _weatherInfo.Wind;
                 Humidity = _weatherInfo.Humidity;
                 Pressure = _weatherInfo.Pressure;

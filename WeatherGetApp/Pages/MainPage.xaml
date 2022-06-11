@@ -51,14 +51,22 @@
 
             <Grid Background="Transparent" Margin="0 5 0 0">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding Temperature}" FontSize="40" Width="Auto" Height="Auto"
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                            <TextBlock Text="{Binding Temperature}" FontSize="40" Width="Auto" Height="Auto"
                                TextAlignment="Center" HorizontalAlignment="Left"
                                VerticalAlignment="Top" Foreground="{Binding TextColorBrush}"
                                FontWeight="Bold" FontFamily="Segoe UI Semilight"/>
-                    <TextBlock Text="{Binding MeasureSymbol}" FontSize="20" Width="Auto" Height="Auto"
+                            <TextBlock Text="{Binding MeasureSymbol}" FontSize="20" Width="Auto" Height="Auto"
                                TextAlignment="Center" HorizontalAlignment="Left"
                                VerticalAlignment="Top" Foreground="{Binding TextColorBrush}"
                                FontWeight="Bold" FontFamily="Segoe UI Semilight"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding UpdateTimeInfo}" FontSize="12" Width="Auto" Height="Auto"
+                               TextAlignment="Center" HorizontalAlignment="Left"
+                               VerticalAlignment="Top" Foreground="{Binding TextColorBrush}" FontFamily="Segoe UI Semilight"/>
+                    </StackPanel>
+                    
                     <Image Source="{Binding WeatherIcon}" Width="40" Height="40" Margin="10 0 20 0"/>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{Binding Sky}" TextAlignment="Left" 
@@ -69,15 +77,12 @@
                         <TextBlock Text="{Binding Feel}" FontSize="14" Width="Auto" Height="Auto"
                                TextAlignment="Center" HorizontalAlignment="Left"
                                VerticalAlignment="Top" Foreground="{Binding TextColorBrush}" FontFamily="Segoe UI Semilight"/>
-                        <TextBlock Text="{Binding UpdateTimeInfo}" FontSize="14" Width="Auto" Height="Auto"
-                               TextAlignment="Center" HorizontalAlignment="Left"
-                               VerticalAlignment="Top" Foreground="{Binding TextColorBrush}" FontFamily="Segoe UI Semilight"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>
 
             <Grid>
-                <StackPanel Orientation="Horizontal" Margin="5 15 0 0">
+                <StackPanel Orientation="Horizontal" Margin="5 5 0 0">
                     <fa:FontAwesome Icon="Solid_Wind" FontSize="18"
                                     Foreground="{Binding TextColorBrush}"/>
                     <TextBlock Text="{Binding Wind}" FontSize="14" Width="Auto" Height="Auto"
