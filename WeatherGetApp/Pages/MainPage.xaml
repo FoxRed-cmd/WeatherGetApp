@@ -61,13 +61,12 @@
                                TextAlignment="Center" HorizontalAlignment="Left"
                                VerticalAlignment="Top" Foreground="{Binding TextColorBrush}"
                                FontWeight="Bold" FontFamily="Segoe UI Semilight"/>
+                            <Image Source="{Binding WeatherIcon}" Width="40" Height="40" Margin="10 0 20 0"/>
                         </StackPanel>
                         <TextBlock Text="{Binding UpdateTimeInfo}" FontSize="12" Width="Auto" Height="Auto"
                                TextAlignment="Center" HorizontalAlignment="Left"
                                VerticalAlignment="Top" Foreground="{Binding TextColorBrush}" FontFamily="Segoe UI Semilight"/>
                     </StackPanel>
-                    
-                    <Image Source="{Binding WeatherIcon}" Width="40" Height="40" Margin="10 0 20 0"/>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{Binding Sky}" TextAlignment="Left" 
                                    TextWrapping="WrapWithOverflow"
