@@ -65,7 +65,8 @@
                         </StackPanel>
                         <TextBlock Text="{Binding UpdateTimeInfo}" FontSize="12" Width="Auto" Height="Auto"
                                TextAlignment="Center" HorizontalAlignment="Left"
-                               VerticalAlignment="Top" Foreground="{Binding TextColorBrush}" FontFamily="Segoe UI Semilight"/>
+                               VerticalAlignment="Top" Foreground="{Binding TextColorBrush}" FontFamily="Segoe UI Semilight"
+                                   Margin="5 0 0 0"/>
                     </StackPanel>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{Binding Sky}" TextAlignment="Left" 
