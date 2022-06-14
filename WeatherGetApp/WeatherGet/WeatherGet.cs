@@ -40,14 +40,15 @@ namespace WeatherGetApp
                 using (_client = new HttpClient())
                 {
                     List<HtmlNode>? nodes;
-                    byte[] data = _client.GetByteArrayAsync($"{_address}{city}").Result;
-                    string response = Encoding.UTF8.GetString(data);
-
-                    _pageSite = new HtmlDocument();
-                    _pageSite.LoadHtml(response);
-
+                    
                     try
                     {
+                        byte[] data = _client.GetByteArrayAsync($"{_address}{city}").Result;
+                        string response = Encoding.UTF8.GetString(data);
+
+                        _pageSite = new HtmlDocument();
+                        _pageSite.LoadHtml(response);
+
                         _node = _pageSite.DocumentNode.QuerySelector(".b-page__container");
                         _nodes = _node.QuerySelectorAll("div").ToList();
                         RemoveEmptySelectors(_nodes);

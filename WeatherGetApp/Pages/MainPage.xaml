@@ -64,11 +64,13 @@
                             <Image Source="{Binding WeatherIcon}" Width="40" Height="40" Margin="10 0 20 0"/>
                         </StackPanel>
                         <TextBlock Text="{Binding UpdateTimeInfo}" FontSize="12" Width="Auto" Height="Auto"
-                               TextAlignment="Center" HorizontalAlignment="Left"
-                               VerticalAlignment="Top" Foreground="{Binding TextColorBrush}" FontFamily="Segoe UI Semilight"
-                                   Margin="5 0 0 0"/>
+                                   TextAlignment="Center" HorizontalAlignment="Left"
+                                   VerticalAlignment="Top" Foreground="{Binding TextColorBrush}" FontFamily="Segoe UI Semilight"
+                                   Margin="5 0 0 0" TextTrimming="CharacterEllipsis" 
+                                   Visibility="{Binding UpdateInfoVisibility}" 
+                                   MaxWidth="{Binding UpdateInfoMaxWidth}"/>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Vertical" Margin="0 2.5 0 0">
                         <TextBlock Text="{Binding Sky}" TextAlignment="Left" 
                                    TextWrapping="WrapWithOverflow"
                                    FontSize="14" Width="140" Height="Auto"

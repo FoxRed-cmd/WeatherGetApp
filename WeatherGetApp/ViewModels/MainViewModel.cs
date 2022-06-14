@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using WeatherGetApp.HelperClasses;
@@ -328,7 +329,34 @@ namespace WeatherGetApp
         }
         #endregion
 
-        
+
+        private Visibility _updateInfoVisibility;
+        private double _updateInfoMaxWidth;
+
+        public Visibility UpdateInfoVisibility
+        {
+            get => _updateInfoVisibility;
+            set
+            {
+                if (_updateInfoVisibility != value)
+                {
+                    _updateInfoVisibility = value;
+                    NotifyPropertyChanged(nameof(UpdateInfoVisibility));
+                }
+            }
+        }
+        public double UpdateInfoMaxWidth
+        {
+            get => _updateInfoMaxWidth;
+            set
+            {
+                if (_updateInfoMaxWidth != value)
+                {
+                    _updateInfoMaxWidth = value;
+                    NotifyPropertyChanged(nameof(UpdateInfoMaxWidth));
+                }
+            }
+        }
 
         public MainViewModel()
         {
@@ -412,6 +440,18 @@ namespace WeatherGetApp
                 _weatherInfo = _weatherGet.GetWeather();
             else
                 _weatherInfo = _weatherGet.GetWeather(City);
+
+            if (_weatherInfo.Sky == "Не удалось обновить информацию :(")
+            {
+                _weatherInfo.City = City;
+                UpdateInfoVisibility = Visibility.Hidden;
+                UpdateInfoMaxWidth = 90;
+            }
+            else
+            {
+                UpdateInfoVisibility = Visibility.Visible;
+                UpdateInfoMaxWidth = 120;
+            }
         }
         public void ReadConfig()
         {
