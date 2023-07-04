@@ -2,18 +2,16 @@
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Reflection;
 using System.Text;
-using System.Text.Json;
+using System.Threading.Tasks;
+using System.Web;
 
 namespace WeatherGetApp
 {
     internal class WeatherGet
     {
-        public Dictionary<string, string>? Cities { get; private set; }
 
         private HttpClient? _client;
         private HtmlDocument? _pageSite;
@@ -28,22 +26,43 @@ namespace WeatherGetApp
 
         public WeatherGet()
         {
-            LoadCities();
+            
         }
 
-        public WeatherInfo? GetWeather() => GetWeather(string.Empty);
-
-        public WeatherInfo? GetWeather(string cityName)
+        private async Task<string> GetCityNickname(string city) 
         {
-            if (Cities.TryGetValue(cityName.ToLower(), out string? city) || cityName == string.Empty)
+            if (city == string.Empty) return string.Empty;
+
+            using (_client = new HttpClient())
             {
+                string reqUrl = $"https://www.google.com/search?q=%D1%8F%D0%BD%D0%B4%D0%B5%D0%BA%D1%81+%D0%BF%D0%BE%D0%B3%D0%BE%D0%B4%D0%B0+{HttpUtility.UrlEncode(city).ToUpper()}";
+                byte[] data = await _client.GetByteArrayAsync(reqUrl);
+                string response = Encoding.UTF8.GetString(data);
+                _pageSite = new HtmlDocument();
+                _pageSite.LoadHtml(response);
+
+                _nodes = _pageSite.DocumentNode.QuerySelectorAll("div").ToList();
+                _node = _nodes[35];
+            }
+
+            return _node.InnerHtml.Substring(_node.InnerHtml.LastIndexOf(" ") + 1);
+        }
+
+        public async Task<WeatherInfo>? GetWeather() => await GetWeather(string.Empty);
+
+        public async Task<WeatherInfo>? GetWeather(string cityName)
+        {
+            if (cityName != null)
+            {
+                string city = await GetCityNickname(cityName);
+
                 using (_client = new HttpClient())
                 {
                     List<HtmlNode>? nodes;
                     
                     try
                     {
-                        byte[] data = _client.GetByteArrayAsync($"{_address}{city}").Result;
+                        byte[] data = await _client.GetByteArrayAsync($"{_address}{city}");
                         string response = Encoding.UTF8.GetString(data);
 
                         _pageSite = new HtmlDocument();
@@ -59,7 +78,7 @@ namespace WeatherGetApp
                         return new()
                         {
                             Sky = "Не удалось обновить информацию :(",
-                            City = string.Empty,
+                            City = cityName,
                             FeelLikeTemperature = string.Empty,
                             Humidity = string.Empty,
                             MeasureSymbol = string.Empty,
@@ -121,7 +140,7 @@ namespace WeatherGetApp
                 return new() 
                 { 
                     Sky = "Не удалось обновить информацию :(", 
-                    City = string.Empty, 
+                    City = cityName,
                     FeelLikeTemperature = string.Empty,
                     Humidity = string.Empty,
                     MeasureSymbol = string.Empty,
@@ -261,37 +280,5 @@ namespace WeatherGetApp
             return daysWeatherInfo;
         }
 
-        private void LoadCities()
-        {
-            string path = Assembly.GetExecutingAssembly().Location;
-            path = path.Remove(path.LastIndexOf("\\") + 1);
-            path += "Resources\\cities.json";
-            if (File.Exists(path))
-            {
-                using (Stream file = new FileStream(path, FileMode.Open))
-                {
-                    using (StreamReader sr = new(file))
-                    {
-                        Cities = JsonSerializer.Deserialize<Dictionary<string, string>>(sr.ReadToEnd());
-                    }
-                }
-            }
-            else
-            {
-                path = Assembly.GetExecutingAssembly().Location;
-                path = path.Remove(path.LastIndexOf("\\") + 1);
-                path += "cities.json";
-                if (File.Exists(path))
-                {
-                    using (Stream file = new FileStream(path, FileMode.Open))
-                    {
-                        using (StreamReader sr = new(file))
-                        {
-                            Cities = JsonSerializer.Deserialize<Dictionary<string, string>>(sr.ReadToEnd());
-                        }
-                    }
-                }
-            }
-        }
     }
 }

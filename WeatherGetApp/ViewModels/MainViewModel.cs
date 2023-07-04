@@ -375,8 +375,6 @@ namespace WeatherGetApp
             UpdateDateTime();
 
             GetWeather();
-            UpdateWeatherInfo();
-
 
             if (IsDynamic)
                 DynamicBackground();
@@ -434,16 +432,15 @@ namespace WeatherGetApp
                     WriteConfig();
             }
         }
-        public void GetWeather()
+        public async void GetWeather()
         {
             if (City == "Поиск" || City == string.Empty || City == null)
-                _weatherInfo = _weatherGet.GetWeather();
+                _weatherInfo = await _weatherGet.GetWeather();
             else
-                _weatherInfo = _weatherGet.GetWeather(City);
+                _weatherInfo = await _weatherGet.GetWeather(City);
 
             if (_weatherInfo.Sky == "Не удалось обновить информацию :(")
             {
-                _weatherInfo.City = City;
                 UpdateInfoVisibility = Visibility.Hidden;
                 UpdateInfoMaxWidth = 90;
             }
@@ -452,6 +449,7 @@ namespace WeatherGetApp
                 UpdateInfoVisibility = Visibility.Visible;
                 UpdateInfoMaxWidth = 120;
             }
+            UpdateWeatherInfo();
         }
         public void ReadConfig()
         {
@@ -467,33 +465,30 @@ namespace WeatherGetApp
             {
                 if (_read == null)
                 {
-                    using (_write = Registry.CurrentUser.CreateSubKey("SOFTWARE\\WeatherGetApp"))
-                    {
-                        _write.SetValue(nameof(Color1), $"{Color1.A},{Color1.R},{Color1.G},{Color1.B}", RegistryValueKind.String);
-                        _write.SetValue(nameof(Color2), $"{Color2.A},{Color2.R},{Color2.G},{Color2.B}", RegistryValueKind.String);
-                        _write.SetValue(nameof(TextColor), $"{TextColor.A},{TextColor.R},{TextColor.G},{TextColor.B}", RegistryValueKind.String);
-                        _write.SetValue(nameof(Angle), Angle.ToString(), RegistryValueKind.String);
-                        _write.SetValue(nameof(IsDynamic), IsDynamic, RegistryValueKind.String);
-                        _write.SetValue(nameof(TimeDelay), TimeDelay.ToString(), RegistryValueKind.String);
-                        _write.SetValue(nameof(Top), Top.ToString(), RegistryValueKind.String);
-                        _write.SetValue(nameof(Left), Left.ToString(), RegistryValueKind.String);
-                        _write.SetValue(nameof(City), City, RegistryValueKind.String);
-                    }
+                    WriteConfig();
                 }
                 else
                 {
-                    string[] argb = _read.GetValue(nameof(Color1)).ToString().Split(',');
-                    Color1 = Color.FromArgb(byte.Parse(argb[0]), byte.Parse(argb[1]), byte.Parse(argb[2]), byte.Parse(argb[3]));
-                    argb = _read.GetValue(nameof(Color2)).ToString().Split(',');
-                    Color2 = Color.FromArgb(byte.Parse(argb[0]), byte.Parse(argb[1]), byte.Parse(argb[2]), byte.Parse(argb[3]));
-                    argb = _read.GetValue(nameof(TextColor)).ToString().Split(',');
-                    TextColor = Color.FromArgb(byte.Parse(argb[0]), byte.Parse(argb[1]), byte.Parse(argb[2]), byte.Parse(argb[3]));
-                    Angle = double.Parse(_read.GetValue(nameof(Angle)).ToString());
-                    IsDynamic = bool.Parse(_read.GetValue(nameof(IsDynamic)).ToString());
-                    TimeDelay = int.Parse(_read.GetValue(nameof(TimeDelay)).ToString());
-                    Top = double.Parse(_read.GetValue(nameof(Top)).ToString());
-                    Left = double.Parse(_read.GetValue(nameof(Left)).ToString());
-                    City = _read.GetValue(nameof(City)).ToString();
+                    try
+                    {
+                        string[] argb = _read.GetValue(nameof(Color1)).ToString().Split(',');
+                        Color1 = Color.FromArgb(byte.Parse(argb[0]), byte.Parse(argb[1]), byte.Parse(argb[2]), byte.Parse(argb[3]));
+                        argb = _read.GetValue(nameof(Color2)).ToString().Split(',');
+                        Color2 = Color.FromArgb(byte.Parse(argb[0]), byte.Parse(argb[1]), byte.Parse(argb[2]), byte.Parse(argb[3]));
+                        argb = _read.GetValue(nameof(TextColor)).ToString().Split(',');
+                        TextColor = Color.FromArgb(byte.Parse(argb[0]), byte.Parse(argb[1]), byte.Parse(argb[2]), byte.Parse(argb[3]));
+                        Angle = double.Parse(_read.GetValue(nameof(Angle)).ToString());
+                        IsDynamic = bool.Parse(_read.GetValue(nameof(IsDynamic)).ToString());
+                        TimeDelay = int.Parse(_read.GetValue(nameof(TimeDelay)).ToString());
+                        Top = double.Parse(_read.GetValue(nameof(Top)).ToString());
+                        Left = double.Parse(_read.GetValue(nameof(Left)).ToString());
+                        City = _read.GetValue(nameof(City)).ToString();
+                    }
+                    catch (Exception)
+                    {
+                        WriteConfig();
+                    }
+                   
                 }
             }
 
