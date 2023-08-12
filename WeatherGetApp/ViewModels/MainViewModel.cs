@@ -332,6 +332,7 @@ namespace WeatherGetApp
 
         private Visibility _updateInfoVisibility;
         private double _updateInfoMaxWidth;
+        private bool _firstStart = true;
 
         public Visibility UpdateInfoVisibility
         {
@@ -434,6 +435,12 @@ namespace WeatherGetApp
         }
         public async void GetWeather()
         {
+            if (_firstStart)
+            {
+                _firstStart = false;
+                await Task.Delay(5000);
+            }
+
             if (City == "Поиск" || City == string.Empty || City == null)
                 _weatherInfo = await _weatherGet.GetWeather();
             else
